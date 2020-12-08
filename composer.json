@@ -1,0 +1,41 @@
+{
+    "name": "iamamirsalehi/laravel-save-fresh",
+    "description": "Don't worry about freshing your database because all data will back to your tables",
+    "license": "mit",
+    "authors": [
+        {
+            "name": "Amir Salehi",
+            "email": "iamamirsalehi@gmail.com",
+            "homepage": "author homepage"
+        }
+    ],
+    "homepage": "https://github.com/iamamirsalehi/laravel-save-fresh",
+    "keywords": ["Laravel", "LaravelSaveFresh"],
+    "require": {
+        "illuminate/support": "~7|~8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~9.0",
+        "orchestra/testbench": "~5|~6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Iamamirsalehi\\LaravelSaveFresh\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Iamamirsalehi\\LaravelSaveFresh\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Iamamirsalehi\\LaravelSaveFresh\\LaravelSaveFreshServiceProvider"
+            ],
+            "aliases": {
+                "LaravelSaveFresh": "Iamamirsalehi\\LaravelSaveFresh\\Facades\\LaravelSaveFresh"
+            }
+        }
+    }
+}
