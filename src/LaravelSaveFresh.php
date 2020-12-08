@@ -4,5 +4,8 @@ namespace Iamamirsalehi\LaravelSaveFresh;
 
 class LaravelSaveFresh
 {
-    // Build wonderful things
+    public  function index()
+    {
+        return 0;
+    }
 }
