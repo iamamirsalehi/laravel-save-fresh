@@ -68,7 +68,8 @@ class RestoreDatabaseCommand extends Command
             'sqlFile' =>  $backupSqlFilePath
         ];
 
-        DB::statement("mysql {$database['user']} {$database['pass']} {$database['db_name']} < '{$database['sqlFile']}'");
+        $process = \Symfony\Component\Process\Process::fromShellCommandline("mysql {$database['user']} {$database['pass']} {$database['db_name']} < '{$database['sqlFile']}'");
+        $process->run();
     }
 
 
