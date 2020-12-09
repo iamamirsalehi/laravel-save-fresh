@@ -78,7 +78,8 @@ class LaravelSaveFreshServiceProvider extends ServiceProvider
 
         // Registering package commands.
          $this->commands([
-             \Iamamirsalehi\LaravelSaveFresh\Console\Commands\LaravelSaveFresh::class
+             \Iamamirsalehi\LaravelSaveFresh\Console\Commands\LaravelSaveFresh::class,
+             \Iamamirsalehi\LaravelSaveFresh\Console\Commands\RestoreDatabaseCommand::class
          ]);
     }
 }

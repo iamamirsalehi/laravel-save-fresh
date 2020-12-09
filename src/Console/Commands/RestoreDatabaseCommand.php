@@ -4,6 +4,8 @@ namespace Iamamirsalehi\LaravelSaveFresh\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Database\Console\Migrations\FreshCommand;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class RestoreDatabaseCommand extends Command
 {
@@ -21,6 +23,7 @@ class RestoreDatabaseCommand extends Command
      */
     protected $description = 'backup your database';
 
+    protected $zipper;
     /**
      * Create a new command instance.
      *
@@ -33,7 +36,57 @@ class RestoreDatabaseCommand extends Command
 
     public function handle()
     {
-
+        $this->upZipSqlBackupZipFile();
     }
 
+    public function upZipSqlBackupZipFile()
+    {
+
+        $zipFile = new \PhpZip\ZipFile();
+        try{
+
+            $zipFile
+                ->openFile($this->getBackupFilePath()) // open archive from file
+                ->extractTo($this->getStoreSqlFilePath()); // extract files to the specified directory
+
+            $this->restore($this->getSqlFile());
+        }
+        catch(\PhpZip\Exception\ZipException $e){
+            throw new \Exception($e->getMessage());
+        }
+        finally{
+            $zipFile->close();
+        }
+    }
+
+    public function restore($backupSqlFilePath)
+    {
+        $database = [
+            'user'    => '-u ' . env('DB_USERNAME'),
+            'pass'    => '-p ' . env('DB_PASSWORD'),
+            'db_name' =>  env('DB_DATABASE'),
+            'sqlFile' =>  $backupSqlFilePath
+        ];
+
+        DB::statement("mysql {$database['user']} {$database['pass']} {$database['db_name']} < '{$database['sqlFile']}'");
+    }
+
+
+    public function getSqlFile()
+    {
+        return realpath($this->getStoreSqlFilePath() . '\\db-dumps\\mysql-' . env('DB_DATABASE') . '.sql');
+    }
+
+    public function getBackupFilePath()
+    {
+        return realpath(storage_path( 'app\\' . array_reverse(Storage::files('Laravel'))[0]));
+    }
+
+    public function getStoreSqlFilePath()
+    {
+        if(!is_dir(storage_path('app/sql-tmp')))
+            mkdir(storage_path('app/sql-tmp'), 0755);
+
+        return realpath(storage_path('app/sql-tmp'));
+    }
 }

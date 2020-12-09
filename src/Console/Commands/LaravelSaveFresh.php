@@ -37,7 +37,7 @@ class LaravelSaveFresh extends Command
     {
         Artisan::call('backup:run --only-db');
         Artisan::call('migrate:fresh');
-
+        Artisan::call('backup:restore');
     }
 
 }
