@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Migrations\FreshCommand;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class RestoreDatabaseCommand extends Command
 {
@@ -21,7 +22,7 @@ class RestoreDatabaseCommand extends Command
      *
      * @var string
      */
-    protected $description = 'backup your database';
+    protected $description = 'restore your database';
 
     protected $zipper;
     /**
@@ -68,8 +69,11 @@ class RestoreDatabaseCommand extends Command
             'sqlFile' =>  $backupSqlFilePath
         ];
 
-        $process = \Symfony\Component\Process\Process::fromShellCommandline("mysql {$database['user']} {$database['pass']} {$database['db_name']} < '{$database['sqlFile']}'");
+        $process = \Symfony\Component\Process\Process::fromShellCommandline("mysql {$database['user']} {$database['pass']} {$database['db_name']} < {$database['sqlFile']}");
         $process->run();
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
     }
 
 
