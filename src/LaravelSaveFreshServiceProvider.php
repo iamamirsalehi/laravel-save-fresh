@@ -77,6 +77,8 @@ class LaravelSaveFreshServiceProvider extends ServiceProvider
         ], 'laravel-save-fresh.views');*/
 
         // Registering package commands.
-        // $this->commands([]);
+         $this->commands([
+             \Iamamirsalehi\LaravelSaveFresh\Console\Commands\LaravelSaveFresh::class
+         ]);
     }
 }
