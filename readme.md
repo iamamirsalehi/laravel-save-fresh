@@ -17,6 +17,13 @@ $ composer require iamamirsalehi/laravel-save-fresh
 
 ## Usage
 
+When you install the package you have a command in your php artisan `migrate` section
+
+```
+php artisan migrate:save-fresh
+```
+When you enter the command, It will ask for your database password and after that you have freshen migrations and saved your tables data.
+ 
 ## Change log
 
 Please see the [changelog](changelog.md) for more information on what has changed recently.
